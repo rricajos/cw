@@ -1,26 +1,99 @@
-// Sistema de traducción para Chatwoot
+// Traducción Portugués → Español para Chatwoot
 (function() {
   'use strict';
   
-  console.log('🌍 Sistema de traducciones cargado');
+  console.log('🇵🇹 → 🇪🇸 Traductor PT a ES activado');
   
-  // Diccionario de traducciones
+  // Diccionario Portugués → Español
   const translations = {
-    // Navegación principal
-    'Inbox': 'Bandeja',
+    // Navegación
+    'Caixa de Entrada': 'Bandeja de Entrada',
+    'Conversas': 'Conversaciones',
+    'Contatos': 'Contactos',
+    'Relatórios': 'Informes',
+    'Configurações': 'Configuración',
+    'Ajuda': 'Ayuda',
+    'Painel': 'Panel',
+    'Equipe': 'Equipo',
+    'Etiquetas': 'Etiquetas',
+    'Atributos': 'Atributos',
+    
+    // Estados
+    'Aberto': 'Abierto',
+    'Resolvido': 'Resuelto',
+    'Pendente': 'Pendiente',
+    'Adiado': 'Pospuesto',
+    'Ativo': 'Activo',
+    'Fechado': 'Cerrado',
+    
+    // Acciones
+    'Enviar': 'Enviar',
+    'Responder': 'Responder',
+    'Fechar': 'Cerrar',
+    'Excluir': 'Eliminar',
+    'Editar': 'Editar',
+    'Salvar': 'Guardar',
+    'Cancelar': 'Cancelar',
+    'Buscar': 'Buscar',
+    'Filtrar': 'Filtrar',
+    'Ordenar': 'Ordenar',
+    'Adicionar': 'Añadir',
+    'Criar': 'Crear',
+    'Atualizar': 'Actualizar',
+    'Remover': 'Quitar',
+    'Aplicar': 'Aplicar',
+    'Limpar': 'Limpiar',
+    'Redefinir': 'Reiniciar',
+    
+    // Mensajes
+    'Nova mensagem': 'Nuevo mensaje',
+    'Digite uma mensagem': 'Escribe un mensaje',
+    'Mensagem enviada': 'Mensaje enviado',
+    'Sem conversas': 'Sin conversaciones',
+    'Sem mensagens': 'Sin mensajes',
+    'Digitando...': 'Escribiendo...',
+    'Nova conversa': 'Nueva conversación',
+    
+    // Usuario
+    'Perfil': 'Perfil',
+    'Sair': 'Cerrar sesión',
+    'Conta': 'Cuenta',
+    'Status': 'Estado',
+    'Disponível': 'Disponible',
+    'Ocupado': 'Ocupado',
+    'Offline': 'Desconectado',
+    
+    // Tiempo
+    'Hoje': 'Hoy',
+    'Ontem': 'Ayer',
+    'Semana passada': 'Semana pasada',
+    'Mês passado': 'Mes pasado',
+    
+    // Otros
+    'Carregando': 'Cargando',
+    'Mais': 'Más',
+    'Todos': 'Todos',
+    'Nenhum': 'Ninguno',
+    'Sim': 'Sí',
+    'Não': 'No',
+    'OK': 'Aceptar',
+    'Confirmar': 'Confirmar',
+    'Voltar': 'Volver',
+    'Próximo': 'Siguiente',
+    'Anterior': 'Anterior',
+    'Enviar': 'Enviar',
+    
+    // Inglés también (por si Chatwoot está en inglés)
+    'Inbox': 'Bandeja de Entrada',
     'Conversations': 'Conversaciones',
     'Contacts': 'Contactos',
     'Reports': 'Informes',
     'Settings': 'Configuración',
     'Help': 'Ayuda',
-    
-    // Estados
     'Open': 'Abierto',
     'Resolved': 'Resuelto',
     'Pending': 'Pendiente',
     'Snoozed': 'Pospuesto',
-    
-    // Acciones
     'Send': 'Enviar',
     'Reply': 'Responder',
     'Close': 'Cerrar',
@@ -29,40 +102,53 @@
     'Save': 'Guardar',
     'Cancel': 'Cancelar',
     'Search': 'Buscar',
-    
-    // Mensajes
     'New message': 'Nuevo mensaje',
     'Type a message': 'Escribe un mensaje',
     'Message sent': 'Mensaje enviado',
     'No conversations': 'Sin conversaciones',
-    
-    // Usuario
     'Profile': 'Perfil',
     'Logout': 'Cerrar sesión',
     'Account': 'Cuenta',
-    
-    // Otros
     'Loading': 'Cargando',
     'More': 'Más',
     'All': 'Todos'
   };
   
-  // Traducciones de atributos
   const attributeTranslations = {
     title: {
+      'Enviar mensagem': 'Enviar mensaje',
+      'Fechar conversa': 'Cerrar conversación',
+      'Excluir mensagem': 'Eliminar mensaje',
+      'Buscar conversas': 'Buscar conversaciones',
+      'Nova conversa': 'Nueva conversación',
+      'Marcar como resolvido': 'Marcar como resuelto',
+      'Atribuir ao agente': 'Asignar a agente',
+      'Adicionar etiqueta': 'Añadir etiqueta',
       'Send message': 'Enviar mensaje',
       'Close conversation': 'Cerrar conversación',
       'Delete message': 'Eliminar mensaje',
-      'Search conversations': 'Buscar conversaciones'
+      'Search conversations': 'Buscar conversaciones',
+      'New conversation': 'Nueva conversación',
+      'Mark as resolved': 'Marcar como resuelto',
+      'Assign to agent': 'Asignar a agente',
+      'Add label': 'Añadir etiqueta'
     },
     placeholder: {
+      'Digite uma mensagem...': 'Escribe un mensaje...',
+      'Buscar': 'Buscar...',
+      'Digite sua mensagem': 'Introduce tu mensaje',
+      'Buscar conversas': 'Buscar conversaciones...',
+      'Buscar contatos': 'Buscar contactos...',
+      'Digite aqui': 'Escribe aquí',
       'Type a message...': 'Escribe un mensaje...',
       'Search': 'Buscar...',
-      'Enter your message': 'Ingresa tu mensaje'
+      'Enter your message': 'Introduce tu mensaje',
+      'Search conversations': 'Buscar conversaciones...',
+      'Search contacts': 'Buscar contactos...',
+      'Type here': 'Escribe aquí'
     }
   };
   
-  // Función para traducir un elemento
   function translateElement(element) {
     // Traducir texto directo
     if (element.childNodes.length === 1 && element.childNodes[0].nodeType === 3) {
@@ -85,15 +171,13 @@
     });
   }
   
-  // Función principal de traducción
   function translatePage() {
-    // Traducir todos los elementos visibles
     document.querySelectorAll('body *').forEach(element => {
       translateElement(element);
     });
   }
   
-  // Ejecutar cuando el DOM esté listo
+  // Ejecutar cuando cargue la página
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', translatePage);
   } else {
@@ -112,17 +196,16 @@
     });
   });
   
-  // Iniciar observación después de un pequeño delay
   setTimeout(() => {
     observer.observe(document.body, {
       childList: true,
       subtree: true,
       characterData: false
     });
-    console.log('🔍 Observador de traducciones activo');
+    console.log('🔍 Observador de traducciones PT→ES activo');
   }, 1000);
   
-  // Re-traducir cada 5 segundos (por si acaso)
+  // Re-traducir cada 5 segundos por si acaso
   setInterval(translatePage, 5000);
   
 })();
