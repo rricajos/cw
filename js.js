@@ -111,7 +111,75 @@
     'Account': 'Cuenta',
     'Loading': 'Cargando',
     'More': 'Más',
-    'All': 'Todos'
+    'All': 'Todos',
+
+
+     // Secciones y navegación
+    'Checklist': 'Lista de Verificación',
+    'Arquivos Adjuntos': 'Archivos Adjuntos',
+    'Dados Adicionais': 'Datos Adicionales',
+    'Campos Globais': 'Campos Globales',
+    'Campos Adicionais': 'Campos Adicionales',
+    'Progresso do Funil': 'Progreso del Embudo',
+    'Criar Item do Kanban': 'Crear Ítem del Kanban',
+    'Relatório da etapa': 'Informe de la etapa',
+
+    // Formularios y campos
+    'Prioridade': 'Prioridad',
+    'Digite o valor para Prioridade': 'Escribe el valor para Prioridad',
+    'Tipo serviço': 'Tipo de servicio',
+    'Adicionar item +': 'Añadir ítem +',
+    'Adicionar campo': 'Añadir campo',
+    'Chave (name)': 'Clave (nombre)',
+    'Nenhum campo global definido para este funil': 'Ningún campo global definido para este embudo',
+    'Nenhum item do Kanban associado': 'Ningún ítem del Kanban asociado',
+    'Definir Funil': 'Definir Embudo',
+    'Salvar': 'Guardar',
+
+    // Filtros
+    'Filtrar Itens': 'Filtrar Ítems',
+    'Selecionar filtro rápido': 'Seleccionar filtro rápido',
+    'Filtros Salvos': 'Filtros Guardados',
+    'Nome do filtro...': 'Nombre del filtro...',
+    'Carregar filtro salvo': 'Cargar filtro guardado',
+    'Período de Criação': 'Período de Creación',
+    'Período de Agendamento': 'Período de Programación',
+
+    // Prioridades
+    'Urgente': 'Urgente',
+    'Alta': 'Alta',
+    'Média': 'Media',
+    'Baixa': 'Baja',
+
+    // Estados y botones
+    'Aberto': 'Abierto',
+    'Atual': 'Actual',
+    'Etapa': 'Etapa',
+    'Agente': 'Agente',
+    'Aplicar Filtros': 'Aplicar Filtros',
+    'Limpar': 'Limpiar',
+    'Cancelar': 'Cancelar',
+    'Salvar Filtro': 'Guardar Filtro',
+
+    // Elementos del pipeline
+    'Pipeline': 'Embudo',
+    'General': 'General',
+    'Programación': 'Programación',
+    'Relações': 'Relaciones',
+    'Agentes asignados al elemento': 'Agentes asignados al elemento',
+    'Ofertas': 'Ofertas',
+    'Atividades': 'Actividades',
+    'Etapa cambiada': 'Etapa cambiada',
+
+    // Otros textos comunes
+    'Serviço': 'Servicio',
+    'Produto': 'Producto',
+    'Valor': 'Valor',
+    'Item': 'Elemento',
+    'Data limite': 'Fecha límite',
+    'Nenhuma': 'Ninguna'
+
+    
   };
   
   const attributeTranslations = {
