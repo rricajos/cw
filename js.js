@@ -1,11 +1,18 @@
-// Traducción Portugués → Español para Chatwoot
-(function() {
+// Traducción PT → ES para Omnia/Chatwoot (soporta coincidencias parciales)
+// Pegar tal cual en la consola o cargar como userscript.
+(function () {
   'use strict';
-  
-  console.log('🇵🇹 → 🇪🇸 Traductor PT a ES activado');
-  
-  // Diccionario Portugués → Español
-  const translations = {
+
+  console.log('🇵🇹→🇪🇸 Traductor PT→ES (parcial/atributos) activo');
+
+  // --- Config opcional ---
+  const CONFIG = {
+    convertCurrency: false,  // si true: 'R$' → '€'
+    observe: true            // observar DOM dinámico
+  };
+
+  // --- Diccionario EXACTO (palabras/etiquetas sueltas) ---
+  const exactMap = {
     // Navegación
     'Caixa de Entrada': 'Bandeja de Entrada',
     'Conversas': 'Conversaciones',
@@ -17,172 +24,112 @@
     'Equipe': 'Equipo',
     'Etiquetas': 'Etiquetas',
     'Atributos': 'Atributos',
-    
+    'Kanban': 'Kanban',
+    'Funis': 'Embudos',
+    'Etapas': 'Etapas',
+    'Ofertas': 'Ofertas',
+    'Modelos de mensagem': 'Modelos de Mensaje',
+    'Ajustes': 'Ajustes',
+
+    // Cabeceras y secciones
+    'Dados Básicos': 'Datos Básicos',
+    'Metas': 'Metas',
+    'Campos Personalizados Globais': 'Campos Personalizados Globales',
+
     // Estados
+    'Ativo': 'Activo',
+    'Fechado': 'Cerrado',
     'Aberto': 'Abierto',
     'Resolvido': 'Resuelto',
     'Pendente': 'Pendiente',
     'Adiado': 'Pospuesto',
-    'Ativo': 'Activo',
-    'Fechado': 'Cerrado',
-    
+
     // Acciones
-    'Enviar': 'Enviar',
-    'Responder': 'Responder',
-    'Fechar': 'Cerrar',
-    'Excluir': 'Eliminar',
-    'Editar': 'Editar',
+    'Descartar': 'Descartar',
+    'Guardar': 'Guardar',
     'Salvar': 'Guardar',
+    'Copiar': 'Copiar',
+    'Editar': 'Editar',
+    'Excluir': 'Eliminar',
     'Cancelar': 'Cancelar',
-    'Buscar': 'Buscar',
-    'Filtrar': 'Filtrar',
-    'Ordenar': 'Ordenar',
+    'Aplicar': 'Aplicar',
+    'Limpar': 'Limpiar',
     'Adicionar': 'Añadir',
     'Criar': 'Crear',
     'Atualizar': 'Actualizar',
     'Remover': 'Quitar',
-    'Aplicar': 'Aplicar',
-    'Limpar': 'Limpiar',
-    'Redefinir': 'Reiniciar',
-    
-    // Mensajes
-    'Nova mensagem': 'Nuevo mensaje',
-    'Digite uma mensagem': 'Escribe un mensaje',
-    'Mensagem enviada': 'Mensaje enviado',
-    'Sem conversas': 'Sin conversaciones',
-    'Sem mensagens': 'Sin mensajes',
-    'Digitando...': 'Escribiendo...',
-    'Nova conversa': 'Nueva conversación',
-    
-    // Usuario
-    'Perfil': 'Perfil',
-    'Sair': 'Cerrar sesión',
-    'Conta': 'Cuenta',
-    'Status': 'Estado',
-    'Disponível': 'Disponible',
-    'Ocupado': 'Ocupado',
-    'Offline': 'Desconectado',
-    
-    // Tiempo
-    'Hoje': 'Hoy',
-    'Ontem': 'Ayer',
-    'Semana passada': 'Semana pasada',
-    'Mês passado': 'Mes pasado',
-    
-    // Otros
-    'Carregando': 'Cargando',
-    'Mais': 'Más',
-    'Todos': 'Todos',
-    'Nenhum': 'Ninguno',
-    'Sim': 'Sí',
-    'Não': 'No',
-    'OK': 'Aceptar',
-    'Confirmar': 'Confirmar',
-    'Voltar': 'Volver',
-    'Próximo': 'Siguiente',
-    'Anterior': 'Anterior',
-    'Enviar': 'Enviar',
-    
-    // Inglés también (por si Chatwoot está en inglés)
-    'Inbox': 'Bandeja de Entrada',
-    'Conversations': 'Conversaciones',
-    'Contacts': 'Contactos',
-    'Reports': 'Informes',
-    'Settings': 'Configuración',
-    'Help': 'Ayuda',
-    'Open': 'Abierto',
-    'Resolved': 'Resuelto',
-    'Pending': 'Pendiente',
-    'Snoozed': 'Pospuesto',
-    'Send': 'Enviar',
-    'Reply': 'Responder',
-    'Close': 'Cerrar',
-    'Delete': 'Eliminar',
-    'Edit': 'Editar',
-    'Save': 'Guardar',
-    'Cancel': 'Cancelar',
-    'Search': 'Buscar',
-    'New message': 'Nuevo mensaje',
-    'Type a message': 'Escribe un mensaje',
-    'Message sent': 'Mensaje enviado',
-    'No conversations': 'Sin conversaciones',
-    'Profile': 'Perfil',
-    'Logout': 'Cerrar sesión',
-    'Account': 'Cuenta',
-    'Loading': 'Cargando',
-    'More': 'Más',
-    'All': 'Todos',
+    'Buscar': 'Buscar',
 
-
-     // Secciones y navegación
-    'Checklist': 'Lista de Verificación',
-    'Arquivos Adjuntos': 'Archivos Adjuntos',
-    'Dados Adicionais': 'Datos Adicionales',
-    'Campos Globais': 'Campos Globales',
-    'Campos Adicionais': 'Campos Adicionales',
-    'Progresso do Funil': 'Progreso del Embudo',
-    'Criar Item do Kanban': 'Crear Ítem del Kanban',
-    'Relatório da etapa': 'Informe de la etapa',
-
-    // Formularios y campos
-    'Prioridade': 'Prioridad',
-    'Digite o valor para Prioridade': 'Escribe el valor para Prioridad',
-    'Tipo serviço': 'Tipo de servicio',
-    'Adicionar item +': 'Añadir ítem +',
+    // Formularios
+    'Nome da etapa': 'Nombre de la etapa',
+    'Crie uma nova etapa': 'Crea una nueva etapa',
+    'Cor': 'Color',
+    'Descrição': 'Descripción',
+    'Descrição da etapa': 'Descripción de la etapa',
+    'Condições de Auto Criação': 'Condiciones de Auto-Creación',
+    'Contato tem tag': 'El contacto tiene la etiqueta',
+    'Adicionar etapa': 'Añadir etapa',
+    'Chave (nome)': 'Clave (nombre)',
+    'Tipo': 'Tipo',
+    'Único': 'Único',
     'Adicionar campo': 'Añadir campo',
-    'Chave (name)': 'Clave (nombre)',
-    'Nenhum campo global definido para este funil': 'Ningún campo global definido para este embudo',
-    'Nenhum item do Kanban associado': 'Ningún ítem del Kanban asociado',
-    'Definir Funil': 'Definir Embudo',
-    'Salvar': 'Guardar',
 
-    // Filtros
-    'Filtrar Itens': 'Filtrar Ítems',
-    'Selecionar filtro rápido': 'Seleccionar filtro rápido',
-    'Filtros Salvos': 'Filtros Guardados',
-    'Nome do filtro...': 'Nombre del filtro...',
-    'Carregar filtro salvo': 'Cargar filtro guardado',
-    'Período de Criação': 'Período de Creación',
-    'Período de Agendamento': 'Período de Programación',
+    // Metas
+    'Configure uma nova meta': 'Configura una nueva meta',
+    'Tipo de Meta': 'Tipo de Meta',
+    'Taxa de Conversão': 'Tasa de Conversión',
+    'Valor Médio': 'Valor Medio',
+    'Tempo Médio': 'Tiempo Medio',
+    'Total de Conversões': 'Total de Conversiones',
+    'Receita Total': 'Ingreso Total',
+    'Valor da Meta': 'Valor de la Meta',
+    'Descrição (opcional)': 'Descripción (opcional)',
+    'Adicionar Meta': 'Añadir Meta',
 
-    // Prioridades
-    'Urgente': 'Urgente',
-    'Alta': 'Alta',
-    'Média': 'Media',
-    'Baixa': 'Baja',
+    // Panel derecho
+    'Etapas desse funil': 'Etapas de este embudo',
+    'Agentes do Funil': 'Agentes del Embudo',
+    'Modelos de Mensagem': 'Modelos de Mensaje',
+    'Nenhum template nesta etapa': 'Ninguna plantilla en esta etapa',
 
-    // Estados y botones
-    'Aberto': 'Abierto',
-    'Atual': 'Actual',
-    'Etapa': 'Etapa',
-    'Agente': 'Agente',
-    'Aplicar Filtros': 'Aplicar Filtros',
-    'Limpar': 'Limpiar',
-    'Cancelar': 'Cancelar',
-    'Salvar Filtro': 'Guardar Filtro',
-
-    // Elementos del pipeline
-    'Pipeline': 'Embudo',
-    'General': 'General',
-    'Programación': 'Programación',
-    'Relações': 'Relaciones',
-    'Agentes asignados al elemento': 'Agentes asignados al elemento',
-    'Ofertas': 'Ofertas',
-    'Atividades': 'Actividades',
-    'Etapa cambiada': 'Etapa cambiada',
-
-    // Otros textos comunes
-    'Serviço': 'Servicio',
-    'Produto': 'Producto',
-    'Valor': 'Valor',
-    'Item': 'Elemento',
-    'Data limite': 'Fecha límite',
-    'Nenhuma': 'Ninguna'
-
-    
+    // Placeholders vistos
+    'Buscar agente...': 'Buscar agente...'
   };
-  
-  const attributeTranslations = {
+
+  // --- FRASES/PATRONES (coincidencia parcial, con variables) ---
+  // Cada entrada es un regex global/insensible que reemplaza manteniendo el resto del texto.
+  const patternMap = [
+    // Fechas con prefijo
+    { re: /\bAtualizado em\b/gi, to: 'Actualizado el' },
+    { re: /\bCriado em\b/gi,     to: 'Creado el' },
+
+    // Varios de la interfaz
+    { re: /\bEstado Ativo\b/gi,                     to: 'Estado Activo' },
+    { re: /\bEtapa\b/gi,                            to: 'Etapa' },
+    { re: /\bAgente\b/gi,                           to: 'Agente' },
+    { re: /\bRelatório da etapa\b/gi,               to: 'Informe de la etapa' },
+    { re: /\bCriar Ítem do Kanban\b/gi,             to: 'Crear Ítem del Kanban' },
+    { re: /\bProgresso do Funil\b/gi,               to: 'Progreso del Embudo' },
+    { re: /\bNenhum campo global definido para este funil\b/gi,
+      to: 'Ningún campo global definido para este embudo' },
+    { re: /\bNenhum item do Kanban associado\b/gi,
+      to: 'Ningún ítem del Kanban asociado' },
+    { re: /\bNenhuma meta configurada ainda\b/gi,
+      to: 'Ninguna meta configurada aún' },
+    { re: /\bAdicione metas para acompanhar o desempenho do funil\b/gi,
+      to: 'Añade metas para seguir el rendimiento del embudo' },
+
+    // Mini tarjetas (lista de etapa)
+    { re: /\bitens\b/gi, to: 'ítems' },
+    { re: /\bvalor\b/gi, to: 'valor' },
+
+    // Inglés por si aparece
+    { re: /\bUpdated on\b/gi, to: 'Actualizado el' },
+    { re: /\bCreated on\b/gi, to: 'Creado el' }
+  ];
+
+  // --- Atributos (exactos o parciales) ---
+  const attributeMaps = {
     title: {
       'Enviar mensagem': 'Enviar mensaje',
       'Fechar conversa': 'Cerrar conversación',
@@ -191,15 +138,7 @@
       'Nova conversa': 'Nueva conversación',
       'Marcar como resolvido': 'Marcar como resuelto',
       'Atribuir ao agente': 'Asignar a agente',
-      'Adicionar etiqueta': 'Añadir etiqueta',
-      'Send message': 'Enviar mensaje',
-      'Close conversation': 'Cerrar conversación',
-      'Delete message': 'Eliminar mensaje',
-      'Search conversations': 'Buscar conversaciones',
-      'New conversation': 'Nueva conversación',
-      'Mark as resolved': 'Marcar como resuelto',
-      'Assign to agent': 'Asignar a agente',
-      'Add label': 'Añadir etiqueta'
+      'Adicionar etiqueta': 'Añadir etiqueta'
     },
     placeholder: {
       'Digite uma mensagem...': 'Escribe un mensaje...',
@@ -208,72 +147,123 @@
       'Buscar conversas': 'Buscar conversaciones...',
       'Buscar contatos': 'Buscar contactos...',
       'Digite aqui': 'Escribe aquí',
-      'Type a message...': 'Escribe un mensaje...',
-      'Search': 'Buscar...',
-      'Enter your message': 'Introduce tu mensaje',
-      'Search conversations': 'Buscar conversaciones...',
-      'Search contacts': 'Buscar contactos...',
-      'Type here': 'Escribe aquí'
+      'Buscar agente...': 'Buscar agente...'
+    },
+    'aria-label': {
+      'Buscar': 'Buscar',
+      'Fechar': 'Cerrar'
     }
   };
-  
-  function translateElement(element) {
-    // Traducir texto directo
-    if (element.childNodes.length === 1 && element.childNodes[0].nodeType === 3) {
-      const text = element.textContent.trim();
-      if (translations[text]) {
-        element.textContent = translations[text];
-      }
+
+  // Utilidades
+  const isSkippable = (node) =>
+    node.parentElement &&
+    (node.parentElement.isContentEditable ||
+     ['SCRIPT', 'STYLE', 'NOSCRIPT', 'CODE', 'PRE', 'TEXTAREA'].includes(node.parentElement.tagName));
+
+  const wordBoundary = (str) =>
+    new RegExp(`(^|\\b)${escapeRegex(str)}(\\b|$)`, 'gi');
+
+  function escapeRegex(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  // Reemplaza texto de un nodo con exactos + patrones, respetando texto variable
+  function translateTextContent(text) {
+    let out = text;
+
+    // 1) Exactos con límites de palabra
+    for (const [pt, es] of Object.entries(exactMap)) {
+      out = out.replace(wordBoundary(pt), (m, p1, p2) => `${p1}${es}${p2}`);
     }
-    
-    // Traducir atributos
-    ['title', 'placeholder', 'aria-label'].forEach(attr => {
-      if (element.hasAttribute(attr)) {
-        const value = element.getAttribute(attr);
-        if (attributeTranslations[attr] && attributeTranslations[attr][value]) {
-          element.setAttribute(attr, attributeTranslations[attr][value]);
-        } else if (translations[value]) {
-          element.setAttribute(attr, translations[value]);
+
+    // 2) Patrones (parciales)
+    for (const { re, to } of patternMap) {
+      out = out.replace(re, to);
+    }
+
+    // 3) Moneda (opcional)
+    if (CONFIG.convertCurrency) {
+      out = out.replace(/\bR\$\s?/g, '€ ');
+    }
+
+    return out;
+  }
+
+  function translateAttributes(el) {
+    ['title', 'placeholder', 'aria-label'].forEach((attr) => {
+      const val = el.getAttribute && el.getAttribute(attr);
+      if (!val) return;
+
+      // Exacto
+      const map = attributeMaps[attr] || {};
+      if (map[val]) {
+        el.setAttribute(attr, map[val]);
+        return;
+      }
+
+      // Parcial mediante patrones
+      let newVal = val;
+      for (const [pt, es] of Object.entries(exactMap)) {
+        newVal = newVal.replace(wordBoundary(pt), (m, p1, p2) => `${p1}${es}${p2}`);
+      }
+      for (const { re, to } of patternMap) {
+        newVal = newVal.replace(re, to);
+      }
+      if (CONFIG.convertCurrency) {
+        newVal = newVal.replace(/\bR\$\s?/g, '€ ');
+      }
+      if (newVal !== val) el.setAttribute(attr, newVal);
+    });
+  }
+
+  // Recorre nodos de texto con TreeWalker para no tocar inputs/HTML
+  function translateSubtree(root) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    const toProcess = [];
+    let node;
+    while ((node = walker.nextNode())) {
+      if (!node.nodeValue || isSkippable(node)) continue;
+      toProcess.push(node);
+    }
+    for (const textNode of toProcess) {
+      const translated = translateTextContent(textNode.nodeValue);
+      if (translated !== textNode.nodeValue) textNode.nodeValue = translated;
+    }
+
+    // Atributos en elementos del subárbol
+    if (root.nodeType === 1) translateAttributes(root);
+    if (root.querySelectorAll) {
+      root.querySelectorAll('*').forEach(translateAttributes);
+    }
+  }
+
+  // 1ª pasada inmediata
+  translateSubtree(document.body);
+
+  // Observador para cambios dinámicos
+  if (CONFIG.observe) {
+    const mo = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type === 'childList') {
+          m.addedNodes.forEach((n) => {
+            if (n.nodeType === 1) translateSubtree(n);
+            else if (n.nodeType === 3 && !isSkippable(n)) {
+              const t = translateTextContent(n.nodeValue);
+              if (t !== n.nodeValue) n.nodeValue = t;
+            }
+          });
+        } else if (m.type === 'attributes') {
+          translateAttributes(m.target);
         }
       }
     });
-  }
-  
-  function translatePage() {
-    document.querySelectorAll('body *').forEach(element => {
-      translateElement(element);
-    });
-  }
-  
-  // Ejecutar cuando cargue la página
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', translatePage);
-  } else {
-    translatePage();
-  }
-  
-  // Observar cambios en el DOM para contenido dinámico
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach(mutation => {
-      mutation.addedNodes.forEach(node => {
-        if (node.nodeType === 1) {
-          translateElement(node);
-          node.querySelectorAll('*').forEach(translateElement);
-        }
-      });
-    });
-  });
-  
-  setTimeout(() => {
-    observer.observe(document.body, {
+    mo.observe(document.body, {
       childList: true,
       subtree: true,
-      characterData: false
+      attributes: true,
+      attributeFilter: ['title', 'placeholder', 'aria-label']
     });
-    console.log('🔍 Observador de traducciones PT→ES activo');
-  }, 1000);
-  
-  // Re-traducir cada 5 segundos por si acaso
-  setInterval(translatePage, 5000);
-  
+    console.log('🔍 Observador PT→ES enganchado');
+  }
 })();
