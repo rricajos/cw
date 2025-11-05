@@ -1,7 +1,7 @@
-// PT → ES + Hover forzado - Optimizado v6.5
+// PT → ES + Hover forzado - ULTRA-RÁPIDO v6.6
 (function () {
   'use strict';
-  console.log('🇵🇹→🇪🇸 Traductor + Hover OPTIMIZADO v6.5');
+  console.log('🇵🇹→🇪🇸 Traductor + Hover ULTRA-RÁPIDO v6.6');
 
   // === DICCIONARIO LIMPIO (sin redundancias) ===
   const dict = {
@@ -96,6 +96,8 @@
     'Qua':'Mié',
     'Qui':'Jue',
     'Sex':'Vie',
+    'Sáb':'Sáb',
+    'Dom':'Dom',
     
     // Vistas calendario
     'Hoje':'Hoy',
@@ -352,14 +354,14 @@
     }
   }
 
-  // === OBSERVADOR OPTIMIZADO ===
+  // === OBSERVADOR ULTRA-RÁPIDO ===
   let debounceTimer;
   let scanCount = 0;
   
   const observer = new MutationObserver(() => {
     clearTimeout(debounceTimer);
     
-    // Delay mínimo de 200ms
+    // Delay mínimo (casi instantáneo)
     debounceTimer = setTimeout(() => {
       scanCount++;
       console.log(`🔄 Escaneo #${scanCount}`);
@@ -368,7 +370,7 @@
       if (isKanbanRoute()) {
         injectHoverCSS();
       }
-    }, 200);
+    }, 50);
   });
 
   // === CAMBIOS DE RUTA ===
@@ -379,8 +381,10 @@
       lastUrl = location.href;
       console.log('🔄 Ruta: ' + location.pathname);
       
+      // Escaneos inmediatos y rápidos
+      scanPage();
+      setTimeout(scanPage, 100);
       setTimeout(scanPage, 400);
-      setTimeout(scanPage, 1000);
       
       if (isKanbanRoute()) {
         injectHoverCSS();
@@ -390,21 +394,27 @@
     }
   }
 
-  setInterval(checkUrlChange, 500);
+  setInterval(checkUrlChange, 300); // Revisar cada 300ms
 
-  // === RE-ESCANEO EN CLICKS ===
+  // === RE-ESCANEO INMEDIATO EN CLICKS ===
   document.addEventListener('click', () => {
-    setTimeout(scanPage, 300);
+    setTimeout(scanPage, 100);
+    setTimeout(scanPage, 400);
   }, true);
 
-  // === INICIO ===
+  // === INICIO ULTRA-RÁPIDO ===
   function init() {
     console.log('📖 Escaneando...');
     
-    // Escaneos iniciales más rápidos
-    setTimeout(scanPage, 200);
-    setTimeout(scanPage, 600);
-    setTimeout(scanPage, 1200);
+    // Escaneos INMEDIATOS (sin delay)
+    scanPage();
+    scanPage(); // Doble escaneo inmediato
+    
+    // Escaneos progresivos
+    setTimeout(scanPage, 50);
+    setTimeout(scanPage, 150);
+    setTimeout(scanPage, 400);
+    setTimeout(scanPage, 800);
     
     if (isKanbanRoute()) {
       injectHoverCSS();
@@ -416,7 +426,7 @@
       attributes: false,
     });
     
-    console.log('✅ ACTIVO (v6.5 - Optimizado)');
+    console.log('⚡ ACTIVO (v6.6 - ULTRA-RÁPIDO)');
     console.log('💡 Detener: window.__stop()');
     console.log('💡 Escanear: window.__scan()');
     console.log('💡 Cache: window.__cache()');
@@ -440,10 +450,10 @@
     console.log(Array.from(translationCache.entries()).slice(0, 10));
   };
 
-  // Esperar carga
+  // Esperar carga - EJECUTAR INMEDIATAMENTE
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => setTimeout(init, 500));
+    document.addEventListener('DOMContentLoaded', init); // Sin delay
   } else {
-    setTimeout(init, 500);
+    init(); // Ejecutar inmediatamente
   }
 })();
