@@ -1,7 +1,7 @@
-// PT → ES - Completo (texto + placeholders + atributos)
+// PT → ES + Forzar :hover - Script combinado v6.0
 (function () {
   'use strict';
-  console.log('🇵🇹→🇪🇸 Traductor completo v5.1');
+  console.log('🇵🇹→🇪🇸 Traductor + Hover forzado v6.0');
 
   // === DICCIONARIO ===
   const dict = {
@@ -43,6 +43,28 @@
     'maio':'mayo', 'junho':'junio', 'julho':'julio', 'agosto':'agosto',
     'setembro':'septiembre', 'outubro':'octubre', 'novembro':'noviembre', 'dezembro':'diciembre',
     
+    // Días de la semana completos
+    'Domingo':'Domingo', 'Segunda':'Lunes', 'Segunda-feira':'Lunes',
+    'Terça':'Martes', 'Terça-feira':'Martes',
+    'Quarta':'Miércoles', 'Quarta-feira':'Miércoles',
+    'Quinta':'Jueves', 'Quinta-feira':'Jueves',
+    'Sexta':'Viernes', 'Sexta-feira':'Viernes',
+    'Sábado':'Sábado', 'Sabado':'Sábado',
+    'domingo':'domingo', 'segunda':'lunes', 'segunda-feira':'lunes',
+    'terça':'martes', 'terça-feira':'martes',
+    'quarta':'miércoles', 'quarta-feira':'miércoles',
+    'quinta':'jueves', 'quinta-feira':'jueves',
+    'sexta':'viernes', 'sexta-feira':'viernes',
+    'sábado':'sábado', 'sabado':'sábado',
+    
+    // Días de la semana abreviados (3 letras)
+    'Dom':'Dom', 'Seg':'Lun', 'Ter':'Mar', 'Qua':'Mié', 'Qui':'Jue', 'Sex':'Vie', 'Sáb':'Sáb',
+    
+    // Vistas de calendario
+    'Agenda':'Agenda', 'Semana':'Semana', 'Hoy':'Hoy', 'Hoje':'Hoy',
+    'Mes':'Mes', 'Mês':'Mes', 'Dia':'Día', 'Lista':'Lista',
+    'Tarefas':'Tareas',
+    
     // Estados y formularios
     'Dados Básicos':'Datos Básicos', 'Metas':'Metas',
     'Campos Personalizados Globais':'Campos Personalizados Globales',
@@ -66,8 +88,12 @@
     
     // Agentes y campos
     'Agentes do Funil':'Agentes del Embudo', 'Buscar agente...':'Buscar agente...',
-    'Chave (nome)':'Clave (nombre)', 'Chave (name)':'Clave (nombre)', 
+    'Chave (nome)':'Clave (nombre)', 'Chave (name)':'Clave (nombre)',
+    'Chave':'Clave',
     'Tipo':'Tipo', 'Único':'Único', 'Adicionar campo':'Añadir campo',
+    'Añadir campo':'Añadir campo', 'Campos Globais':'Campos Globales',
+    'Campos Adicionais':'Campos Adicionales', 'Dados Adicionais':'Datos Adicionales',
+    'Campos Globales':'Campos Globales', 'Campos Adicionales':'Campos Adicionales',
     
     // Modelos de mensaje
     'Modelos de Mensagem':'Modelos de Mensaje',
@@ -86,6 +112,7 @@
     'Nenhum campo global definido para este funil':'Ningún campo global definido para este embudo',
     'Nenhum item do Kanban associado':'Ningún ítem del Kanban asociado',
     'Nenhuma meta configurada ainda':'Ninguna meta configurada aún',
+    'Ningún campo global definido para este embudo':'Ningún campo global definido para este embudo',
     
     // Textos descriptivos largos
     'Habilitar o deshabilitar este embudo':'Habilitar o deshabilitar este embudo',
@@ -98,7 +125,11 @@
     'Prioridade':'Prioridad', 'Status':'Estado', 'Detalhes':'Detalles',
     'Informações':'Información', 'Criado em':'Creado el', 'Atualizado em':'Actualizado el',
     'Criado por':'Creado por', 'Editando':'Editando',
-    'Ex: Meta mensal de conversões':'Ej: Meta mensual de conversiones'
+    'Ex: Meta mensal de conversões':'Ej: Meta mensual de conversiones',
+    
+    // Tabs y elementos nuevos
+    'General':'General', 'Pipeline':'Pipeline', 'Asignación':'Asignación',
+    'Programación':'Programación', 'Relaciones':'Relaciones'
   };
 
   // === NO TOCAR ESTOS ELEMENTOS ===
@@ -171,6 +202,45 @@
     });
   }
 
+  // === FORZAR ESTILOS HOVER ===
+  function isKanbanRoute() {
+    const path = window.location.pathname;
+    return path.includes('/app/accounts/') && path.includes('/kanban');
+  }
+  
+  function injectHoverCSS() {
+    if (document.getElementById('force-hover-styles')) return;
+    
+    const style = document.createElement('style');
+    style.id = 'force-hover-styles';
+    style.textContent = `
+      /* Forzar visibilidad de elementos que aparecen en hover */
+      [class*="hover"]:not(:hover),
+      [class*="show-on-hover"]:not(:hover),
+      .hover-show:not(:hover),
+      [data-hover]:not(:hover) {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      
+      /* Botones de acción que aparecen en hover */
+      [class*="actions"]:not(:hover),
+      [class*="toolbar"]:not(:hover),
+      [class*="menu"]:not(:hover) {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+    `;
+    
+    document.head.appendChild(style);
+    console.log('✅ CSS hover forzado');
+  }
+  
+  function removeHoverCSS() {
+    const style = document.getElementById('force-hover-styles');
+    if (style) style.remove();
+  }
+
   // === OBSERVADOR CON DEBOUNCE ===
   let debounceTimer;
   let scanCount = 0;
@@ -178,12 +248,17 @@
   const observer = new MutationObserver(() => {
     clearTimeout(debounceTimer);
     
-    // Escanear después de 500ms de calma
+    // Escanear después de 300ms de calma
     debounceTimer = setTimeout(() => {
       scanCount++;
       console.log(`🔄 Escaneo #${scanCount}`);
       scanPage();
-    }, 500);
+      
+      // Revisar hover en cada escaneo
+      if (isKanbanRoute()) {
+        injectHoverCSS();
+      }
+    }, 300);
   });
 
   // === DETECTAR CAMBIOS DE RUTA (Vue Router) ===
@@ -197,15 +272,23 @@
       // Escanear después de que Vue renderice
       setTimeout(scanPage, 800);
       setTimeout(scanPage, 1500);
+      
+      // Gestionar hover CSS
+      if (isKanbanRoute()) {
+        injectHoverCSS();
+      } else {
+        removeHoverCSS();
+      }
     }
   }
 
   // Revisar URL cada 500ms
   setInterval(checkUrlChange, 500);
 
-  // === FORZAR RE-ESCANEO EN CLICKS (para modales) ===
+  // === FORZAR RE-ESCANEO EN CLICKS (para modales y cambios de vista) ===
   document.addEventListener('click', () => {
-    setTimeout(scanPage, 600);
+    setTimeout(scanPage, 400);
+    setTimeout(scanPage, 800);
   }, true);
 
   // === INICIO ===
@@ -213,18 +296,25 @@
     console.log('📖 Escaneando página inicial...');
     
     // Escaneos progresivos (Vue tarda en renderizar)
-    setTimeout(scanPage, 500);
-    setTimeout(scanPage, 1000);
+    setTimeout(scanPage, 300);
+    setTimeout(scanPage, 700);
+    setTimeout(scanPage, 1200);
     setTimeout(scanPage, 2000);
+    setTimeout(scanPage, 3000);
+    
+    // Activar hover si estamos en Kanban
+    if (isKanbanRoute()) {
+      injectHoverCSS();
+    }
     
     // Observar cambios continuos
     observer.observe(document.body, {
       childList: true,
       subtree: true,
-      attributes: false, // No observar atributos para evitar loops
+      attributes: false,
     });
     
-    console.log('✅ Traductor activo');
+    console.log('✅ Traductor + Hover activo (v6.0)');
     console.log('💡 Para detener: window.__stop()');
     console.log('💡 Para escanear: window.__scan()');
   }
@@ -233,7 +323,8 @@
   window.__stop = () => {
     observer.disconnect();
     clearTimeout(debounceTimer);
-    console.log('⏹️ Traductor detenido');
+    removeHoverCSS();
+    console.log('⏹️ Traductor y hover detenidos');
   };
   
   window.__scan = () => {
