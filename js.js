@@ -25,7 +25,7 @@
     'Ajustes':'Ajustes',
     
     // Filtros
-    'Filtrar ítems':'Filtrar ítems',
+    'Filtrar Itens':'Filtrar ítems',
     'Filtros Rápidos':'Filtros Rápidos',
     'Selecionar filtro rápido':'Seleccionar filtro rápido',
     'Filtros Salvos':'Filtros Guardados',
