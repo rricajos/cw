@@ -1,7 +1,7 @@
-// PT → ES + Hover forzado - ULTRA-RÁPIDO v6.6
+// PT → ES + Hover - Eficiente v6.8
 (function () {
   'use strict';
-  console.log('🇵🇹→🇪🇸 Traductor + Hover ULTRA-RÁPIDO v6.6');
+  console.log('🇵🇹→🇪🇸 Traductor Eficiente v6.8');
 
   // === DICCIONARIO LIMPIO (sin redundancias) ===
   const dict = {
@@ -354,14 +354,14 @@
     }
   }
 
-  // === OBSERVADOR ULTRA-RÁPIDO ===
+  // === OBSERVADOR LIGERO ===
   let debounceTimer;
   let scanCount = 0;
   
   const observer = new MutationObserver(() => {
     clearTimeout(debounceTimer);
     
-    // Delay mínimo (casi instantáneo)
+    // Delay moderado para agrupar cambios
     debounceTimer = setTimeout(() => {
       scanCount++;
       console.log(`🔄 Escaneo #${scanCount}`);
@@ -370,7 +370,7 @@
       if (isKanbanRoute()) {
         injectHoverCSS();
       }
-    }, 50);
+    }, 300);
   });
 
   // === CAMBIOS DE RUTA ===
@@ -381,10 +381,10 @@
       lastUrl = location.href;
       console.log('🔄 Ruta: ' + location.pathname);
       
-      // Escaneos inmediatos y rápidos
+      // Escaneos esenciales en cambio de ruta
       scanPage();
-      setTimeout(scanPage, 100);
-      setTimeout(scanPage, 400);
+      setTimeout(scanPage, 200);
+      setTimeout(scanPage, 600);
       
       if (isKanbanRoute()) {
         injectHoverCSS();
@@ -394,12 +394,18 @@
     }
   }
 
-  setInterval(checkUrlChange, 300); // Revisar cada 300ms
+  setInterval(checkUrlChange, 500);
 
-  // === RE-ESCANEO INMEDIATO EN CLICKS ===
-  document.addEventListener('click', () => {
-    setTimeout(scanPage, 100);
-    setTimeout(scanPage, 400);
+  // === ESCANEO INTELIGENTE EN CLICKS (solo botones y links) ===
+  document.addEventListener('click', (e) => {
+    // Solo escanear si el click fue en un botón o link
+    const target = e.target.closest('button, a, [role="button"]');
+    if (target) {
+      // Escaneo inmediato + backup
+      setTimeout(scanPage, 0);   // Inmediato
+      setTimeout(scanPage, 200); // Backup rápido
+      setTimeout(scanPage, 600); // Backup para contenido lento
+    }
   }, true);
 
   // === INICIO ULTRA-RÁPIDO ===
@@ -423,7 +429,8 @@
     observer.observe(document.body, {
       childList: true,
       subtree: true,
-      attributes: false,
+      attributes: true, // Observar cambios de atributos (ej: cuando aparecen elementos)
+      attributeFilter: ['class', 'style'], // Solo class y style
     });
     
     console.log('⚡ ACTIVO (v6.6 - ULTRA-RÁPIDO)');
@@ -447,7 +454,6 @@
   
   window.__cache = () => {
     console.log('📦 Cache:', translationCache.size, 'traducciones');
-    console.log(Array.from(translationCache.entries()).slice(0, 10));
   };
 
   // Esperar carga - EJECUTAR INMEDIATAMENTE
