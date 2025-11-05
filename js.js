@@ -1,7 +1,7 @@
 // PT → ES - Completo (texto + placeholders + atributos)
 (function () {
   'use strict';
-  console.log('🇵🇹→🇪🇸 Traductor completo v5.0');
+  console.log('🇵🇹→🇪🇸 Traductor completo v5.1');
 
   // === DICCIONARIO ===
   const dict = {
@@ -16,6 +16,32 @@
     // Sección lateral
     'Modelos de mensagem':'Modelos de Mensaje', 'Modelos de m...':'Modelos de Mensaje',
     'Ajustes':'Ajustes', 'Informes':'Informes',
+    
+    // Filtros
+    'Filtrar ítems':'Filtrar ítems', 'Filtros Rápidos':'Filtros Rápidos',
+    'Selecionar filtro rápido':'Seleccionar filtro rápido',
+    'Filtros Salvos':'Filtros Guardados', 'Nombre do filtro':'Nombre del filtro',
+    'Carregar filtro salvo':'Cargar filtro guardado',
+    'Aplicar Filtros':'Aplicar Filtros',
+    
+    // Prioridades
+    'Urgente':'Urgente', 'Alta':'Alta', 'Média':'Media', 'Baixa':'Baja',
+    
+    // Valores y rangos
+    'Mínimo':'Mínimo', 'Máximo':'Máximo', 'Período':'Período', 'Periodo':'Período',
+    
+    // Agentes y canales
+    'Agente':'Agente', 'Buscar agentes':'Buscar agentes',
+    'Todos os agentes':'Todos los agentes', 'Todos os canais':'Todos los canales',
+    'Selecione o mês':'Seleccione el mes',
+    
+    // Meses del año
+    'Janeiro':'Enero', 'Fevereiro':'Febrero', 'Março':'Marzo', 'Abril':'Abril',
+    'Maio':'Mayo', 'Junho':'Junio', 'Julho':'Julio', 'Agosto':'Agosto',
+    'Setembro':'Septiembre', 'Outubro':'Octubre', 'Novembro':'Noviembre', 'Dezembro':'Diciembre',
+    'janeiro':'enero', 'fevereiro':'febrero', 'março':'marzo', 'abril':'abril',
+    'maio':'mayo', 'junho':'junio', 'julho':'julio', 'agosto':'agosto',
+    'setembro':'septiembre', 'outubro':'octubre', 'novembro':'noviembre', 'dezembro':'diciembre',
     
     // Estados y formularios
     'Dados Básicos':'Datos Básicos', 'Metas':'Metas',
