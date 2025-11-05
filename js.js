@@ -1,7 +1,7 @@
-// PT → ES + Hover - Eficiente v6.8
+// PT → ES + Hover - Eficiente v6.9
 (function () {
   'use strict';
-  console.log('🇵🇹→🇪🇸 Traductor Eficiente v6.8');
+  console.log('🇵🇹→🇪🇸 Traductor Eficiente v6.9');
 
   // === DICCIONARIO LIMPIO (sin redundancias) ===
   const dict = {
@@ -25,7 +25,7 @@
     'Ajustes':'Ajustes',
     
     // Filtros
-    'Filtrar Itens':'Filtrar ítems',
+    'Filtrar ítems':'Filtrar ítems',
     'Filtros Rápidos':'Filtros Rápidos',
     'Selecionar filtro rápido':'Seleccionar filtro rápido',
     'Filtros Salvos':'Filtros Guardados',
@@ -104,6 +104,25 @@
     'Mês':'Mes',
     'Tarefas':'Tareas',
     
+    // Filtros de tiempo
+    'seg-dom':'lun-dom',
+    'Último mês':'Último mes',
+    'Este ano':'Este año',
+    'Ítens criados nos últimos 7 dias':'Ítems creados en los últimos 7 días',
+    'Ítens criados no último mês':'Ítems creados en el último mes',
+    'Ítens criados hoje':'Ítems creados hoy',
+    'Ítens criados neste ano':'Ítems creados en este año',
+    'Ítens criados nesta semana':'Ítems creados en esta semana',
+    'criados':'creados',
+    'nos últimos':'en los últimos',
+    'no último':'en el último',
+    'hoje':'hoy',
+    'neste':'en este',
+    'nesta':'en esta',
+    'ano':'año',
+    'semana':'semana',
+    'dias':'días',
+    
     // Estados
     'Dados Básicos':'Datos Básicos',
     'Campos Personalizados Globais':'Campos Personalizados Globales',
@@ -147,7 +166,6 @@
     'Chave':'Clave',
     'Único':'Único',
     'Adicionar campo':'Añadir campo',
-    'Añadir campo':'Añadir campo',
     'Campos Globais':'Campos Globales',
     'Campos Adicionais':'Campos Adicionales',
     'Dados Adicionais':'Datos Adicionales',
@@ -175,7 +193,6 @@
     'Nenhum campo global definido para este funil':'Ningún campo global definido para este embudo',
     'Nenhum item do Kanban associado':'Ningún ítem del Kanban asociado',
     'Nenhuma meta configurada ainda':'Ninguna meta configurada aún',
-    'Ningún campo global definido para este embudo':'Ningún campo global definido para este embudo',
     
     // Textos largos
     'Habilitar o deshabilitar este embudo. Los embudos deshabilitados no aceptarán nuevos elementos.':'Habilitar o deshabilitar este embudo. Los embudos deshabilitados no aceptarán nuevos elementos.',
@@ -193,18 +210,7 @@
     'Atualizado em':'Actualizado el',
     'Criado por':'Creado por',
     'Editando':'Editando',
-    'Ex: Meta mensal de conversões':'Ej: Meta mensual de conversiones',
-    
-    // Tabs
-    'Asignación':'Asignación',
-    'Programación':'Programación',
-    'Relaciones':'Relaciones',
-    
-    // Sidebar
-    'Mi bandeja de entrada':'Mi bandeja de entrada',
-    'Conversaciones':'Conversaciones',
-    'Etapas':'Etapas',
-    'Kanban':'Kanban'
+    'Ex: Meta mensal de conversões':'Ej: Meta mensual de conversiones'
   };
 
   // Set de palabras en español para detección rápida
@@ -215,7 +221,8 @@
     'guardar', 'editar', 'eliminar', 'cancelar', 'aplicar',
     'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
-    'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'
+    'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo',
+    'creados', 'últimos', 'último', 'esta', 'este', 'hoy', 'semana', 'año'
   ]);
 
   const SKIP_TAGS = ['SCRIPT', 'STYLE', 'CODE', 'PRE'];
